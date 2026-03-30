@@ -17,6 +17,6 @@ jobs:
           -d '{
             "app_id": "${{ secrets.ONESIGNAL_APP_ID }}",
             "included_segments": ["All"],
-            "headings": {"tr": "Günaydın! Kelime Yolculuğu Başlıyor 🌍"},
-            "contents": {"tr": "Zihnini tazelemeye hazır mısın? Lexatlas'\''ta bugünün kelimeleri seni bekliyor. Hemen gel, keşfetmeye başla!"}
+            "headings": {"en": "Günaydın! Kelime Yolculuğu Başlıyor 🌍"},
+            "contents": {"en": "Zihnini tazelemeye hazır mısın? Lexatlas'\''ta bugünün kelimeleri seni bekliyor. Hemen gel, keşfetmeye başla!"}
           }'
