@@ -1,15 +1,17 @@
-name: Daily Push Notification
+name: Daily Push Notifications
 
 on:
   schedule:
-    - cron: '30 6 * * *'
+    - cron: '30 6 * * *'   # UTC 06:30 = TR 09:30
+    - cron: '0 12 * * *'   # UTC 12:00 = TR 15:00
+    - cron: '0 19 * * *'   # UTC 19:00 = TR 22:00
   workflow_dispatch:
 
 jobs:
-  send-notification:
+  morning-notification:
     runs-on: ubuntu-latest
     steps:
-      - name: Send OneSignal Push
+      - name: Send Morning Push
         run: |
           curl -X POST "https://onesignal.com/api/v1/notifications" \
           -H "Authorization: Key ${{ secrets.ONESIGNAL_API_KEY }}" \
@@ -19,4 +21,35 @@ jobs:
             "included_segments": ["All"],
             "headings": {"en": "Günaydın! Kelime Yolculuğu Başlıyor 🌍"},
             "contents": {"en": "Zihnini tazelemeye hazır mısın? Lexatlas'\''ta bugünün kelimeleri seni bekliyor. Hemen gel, keşfetmeye başla!"}
+          }'
+
+  afternoon-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Afternoon Push
+        run: |
+          curl -X POST "https://onesignal.com/api/v1/notifications" \
+          -H "Authorization: Key ${{ secrets.ONESIGNAL_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "app_id": "${{ secrets.ONESIGNAL_APP_ID }}",
+            "included_segments": ["All"],
+            "headings": {"en": "Günün En Verimli Saati! ⚡"},
+            "contents": {"en": "Beyin en keskin olduğu andayken Lexatlas'\''ta birkaç kelime öğren. Küçük adımlar, büyük farklar yaratır!"}
+          }'
+
+  night-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Night Push
+        run: |
+          curl -X POST "https://onesignal.com/api/v1/notifications" \
+          -H "Authorization: Key ${{ secrets.ONESIGNAL_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "app_id": "${{ secrets.ONESIGNAL_APP_ID }}",
+            "included_segments": ["All"],
+            "headings": {"en": "İyi Geceler 💙"},
+            "contents": {"en": "Sadece iyi geceler demek istedim 🌙 Uykuya kadar bir şehir çözmek istersen bekliyorum."},
+            "big_picture": "https://img.onesignal.com/tmp/d88779c2-36ec-443d-bd8a-8512b3c32308/ovnmb0tlTgiNEuItAFuj_a1.jpg"
           }'
