@@ -1,12 +1,11 @@
 name: Daily Push Notifications
 
 on:
+  schedule:
+    - cron: '30 6 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 19 * * *'
   workflow_dispatch:
-    inputs:
-      job:
-        description: 'Which job to run'
-        required: false
-        default: 'all'
 
 jobs:
   morning-notification:
