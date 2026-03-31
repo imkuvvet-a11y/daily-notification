@@ -1,15 +1,17 @@
 name: Daily Push Notifications
 
 on:
-  schedule:
-    - cron: '30 6 * * *'   # UTC 06:30 = TR 09:30
-    - cron: '0 12 * * *'   # UTC 12:00 = TR 15:00
-    - cron: '0 19 * * *'   # UTC 19:00 = TR 22:00
   workflow_dispatch:
+    inputs:
+      job:
+        description: 'Which job to run'
+        required: false
+        default: 'all'
 
 jobs:
   morning-notification:
     runs-on: ubuntu-latest
+    if: github.event.schedule == '30 6 * * *' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Send Morning Push
         run: |
@@ -25,6 +27,7 @@ jobs:
 
   afternoon-notification:
     runs-on: ubuntu-latest
+    if: github.event.schedule == '0 12 * * *' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Send Afternoon Push
         run: |
@@ -40,6 +43,7 @@ jobs:
 
   night-notification:
     runs-on: ubuntu-latest
+    if: github.event.schedule == '0 19 * * *' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Send Night Push
         run: |
